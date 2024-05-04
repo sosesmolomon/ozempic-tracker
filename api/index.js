@@ -29,8 +29,31 @@ const Tag = require("./models/tag");
 
 // Habits
 //fetchlist
+app.get("/habitslist", async (req, res) => {
+  try {
+    const allHabits = await Habit.find({});
+    res.status(200).json(allHabits);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // create
+app.post("/habits", async (req, res) => {
+  try {
+    const { title, reminder, tags } = req.body;
+    const newHabit = new Habit({
+      title,
+      reminder,
+      tags,
+    });
+
+    const savedHabit = await newHabit.save();
+    res.status(200).json(savedHabit);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // update
 
@@ -39,27 +62,26 @@ const Tag = require("./models/tag");
 // Tags
 
 //fetchlist
-app.get("/tagslist", async(req, res) => {
+app.get("/tagslist", async (req, res) => {
   try {
-    const allTags = await Tag.find({})
+    const allTags = await Tag.find({});
     res.status(200).json(allTags);
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
-
 });
 
 // create
 app.post("/tags", async (req, res) => {
   try {
-    const {name} = req.body;
+    const { name } = req.body;
     const newTag = new Tag({
       name,
     });
     const savedTag = await newTag.save();
     res.status(200).json(savedTag);
   } catch (error) {
-    res.status(500).json({error: "Network error", error});
+    res.status(500).json({ error: "Network error", error });
   }
 });
 

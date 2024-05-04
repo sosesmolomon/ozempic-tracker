@@ -1,24 +1,43 @@
-import { StyleSheet, Text, View, Pressable, TextInput, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  TextInput,
+  Alert,
+  ScrollView,
+} from "react-native";
 import React from "react";
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
+import {
+  Entypo,
+  Ionicons,
+  Feather,
+  FontAwesome,
+  AntDesign,
+} from "@expo/vector-icons";
 
-import TagView from "../components/tagView";
+
+import CreateHabit from "../components/createHabit";
 
 const index = () => {
   const [tagName, setTagName] = useState("");
   const [tags, setTags] = useState([]);
+  const [habits, setHabits] = useState([]);
+  const [option, setOption] = useState("Today");
+
   // useEffect(() => {
   //   fetchTags();
-  // }, []); // need extra , [] on return to only do it once?
-  
-  useFocusEffect(
-    useCallback(() => {
-      fetchTags();
-    }, [])
-  );
+  // }, []);
+  //both of these run everytime it RENDERS, so each type you type a letter, thats a render, and it refetches
 
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     fetchTags();
+  //   }, [])
+  // );
 
   async function addTag() {
     console.log("add tag", tagName);
@@ -37,53 +56,64 @@ const index = () => {
     }
   }
 
-  async function fetchTags() {
+
+  async function fetchHabits() {
+    console.log("fetching habits");
     try {
-      const response = await axios.get("http://localhost:3000/tagslist");
-      setTags(response.data);
-    } catch(error) {
-      console.log("error fetching tags", error)
-    }    
+      const response = await axios.get("http://localhost:3000/habitslist");
+      setHabits(response.data);
+    } catch (error) {
+      console.log("error fetching habits", error);
+    }
   }
-  console.log(tags);
+
+
+  
 
   return (
-    <View>
-      <Text>home</Text>
+    <>
+      <ScrollView style={{ flex: 1, backgroundColor: "white", padding: 10 }}>
+        <CreateHabit />
+        <Text>home</Text>
 
-      {/* add tags */}
+        {/* add tags */}
 
-      <TextInput
-        value={tagName}
-        onChangeText={(text) => setTagName(text)}
-        style={{
-          width: "95%",
-          marginTop: 15,
-          padding: 15,
-          borderRadius: 10,
-          backgroundColor: "#E1EBEE",
-        }}
-        placeholder="Tag"
-      />
+        <TextInput
+          value={tagName}
+          onChangeText={(text) => setTagName(text)}
+          style={{
+            width: "95%",
+            marginTop: 15,
+            padding: 15,
+            borderRadius: 10,
+            backgroundColor: "#E1EBEE",
+          }}
+          placeholder="Tag"
+        />
 
-      <Pressable
-        onPress={addTag}
-        style={{
-          marginTop: 25,
-          backgroundColor: "#00428c",
-          padding: 10,
-          borderRadius: 8,
-        }}
-      >
-        <Text
-          style={{ textAlign: "center", color: "white", fontWeight: "bold" }}
+        <Pressable
+          onPress={addTag}
+          style={{
+            marginTop: 25,
+            backgroundColor: "#00428c",
+            padding: 10,
+            borderRadius: 8,
+          }}
         >
-          SAVE
-        </Text>
-      </Pressable>
-      <TagView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} tags={tags}/>
-    </View>
+          <Text
+            style={{ textAlign: "center", color: "white", fontWeight: "bold" }}
+          >
+            SAVE
+          </Text>
+        </Pressable>
 
+        <Text>all habits = {habits}</Text>
+
+
+
+
+      </ScrollView>
+    </>
   );
 };
 
