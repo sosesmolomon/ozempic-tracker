@@ -95,7 +95,7 @@ const TodayPage = () => {
           </Text>
 
           <Pressable
-            onPress={() => router.push("/home/create")}
+            onPress={() => router.push("/(tabs)/create/habit")}
             style={{
               backgroundColor: "#0071c5",
               marginTop: 20,

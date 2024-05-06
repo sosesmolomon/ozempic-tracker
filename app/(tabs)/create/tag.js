@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { Redirect } from "expo-router";
 
-const index = () => {
+const tag = () => {
   return (
-    <Redirect href='/today' />
+    <View>
+      <Text>create tag</Text>
+    </View>
   );
 };
 
-export default index;
+export default tag;
 
 const styles = StyleSheet.create({});

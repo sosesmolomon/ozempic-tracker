@@ -11,7 +11,7 @@ import React, { useState, useEffect } from "react";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
-import TagBubbles from "../components/tagBubbles";
+import TagBubbles from "../../components/tagBubbles";
 
 import axios from "axios";
 
@@ -89,6 +89,7 @@ const create = () => {
     addHabit();
   };
 
+  // if im in /create/habit. this page, and I click the Today tab, then click back to /create/, this page will already be open... this is because router.back() is never called...
   return (
     <View style={{ padding: 10 }}>
       <Ionicons

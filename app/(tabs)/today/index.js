@@ -20,10 +20,10 @@ import {
   AntDesign,
 } from "@expo/vector-icons";
 
-import CreateHabit from "../components/createHabit";
-import TodayPage from "../components/todayPage";
+import CreateHabit from "../../components/createHabit";
+import TodayPage from "../../components/todayPage";
 
-const index = () => {
+const HomePage = () => {
   const [tagName, setTagName] = useState("");
   const [tags, setTags] = useState([]);
   const [habits, setHabits] = useState([]);
@@ -118,7 +118,7 @@ const index = () => {
   );
 };
 
-export default index;
+export default HomePage;
 
 const styles = StyleSheet.create({
   button: {

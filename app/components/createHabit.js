@@ -23,7 +23,7 @@ const CreateHabit = () => {
     >
       <Entypo name="foursquare" size={27} color="black" />
       <AntDesign
-        onPress={() => router.push("/home/create")}
+        onPress={() => router.push("/(tabs)/create/habit")}
         name="pluscircle"
         size={24}
         color="black"
