@@ -6,6 +6,7 @@ import {
   TextInput,
   Alert,
   ScrollView,
+  Image,
 } from "react-native";
 import React from "react";
 import { useState, useEffect, useCallback } from "react";
@@ -19,8 +20,8 @@ import {
   AntDesign,
 } from "@expo/vector-icons";
 
-
 import CreateHabit from "../components/createHabit";
+import TodayPage from "../components/todayPage";
 
 const index = () => {
   const [tagName, setTagName] = useState("");
@@ -56,6 +57,9 @@ const index = () => {
     }
   }
 
+  useEffect(() => {
+    fetchHabits();
+  }, []);
 
   async function fetchHabits() {
     console.log("fetching habits");
@@ -66,9 +70,11 @@ const index = () => {
       console.log("error fetching habits", error);
     }
   }
+  const filteredHabits = habits;
+  //   const filteredHabits = habits?.filter((habit) => {
+  //     return !habit.completed || !habit.completed[currentDay];
+  //   });
 
-
-  
 
   return (
     <>
@@ -106,12 +112,7 @@ const index = () => {
             SAVE
           </Text>
         </Pressable>
-
-        <Text>all habits = {habits}</Text>
-
-
-
-
+        <TodayPage />
       </ScrollView>
     </>
   );

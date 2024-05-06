@@ -48,6 +48,8 @@ app.post("/habits", async (req, res) => {
       tags,
     });
 
+    console.log("trying to add habit: ", newHabit);
+
     const savedHabit = await newHabit.save();
     res.status(200).json(savedHabit);
   } catch (error) {

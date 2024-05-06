@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   Button,
+  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
@@ -25,11 +26,9 @@ const create = () => {
   let habitTags = [];
   const [selectedTagIds, setSelectedTagIds] = useState([]);
 
-
   useEffect(() => {
     fetchTags();
   }, []);
-
 
   async function fetchTags() {
     console.log("fetching tags from create.js");
@@ -40,7 +39,6 @@ const create = () => {
       console.log("error fetching tags", error);
     }
   }
-
 
   async function addHabit() {
     try {
@@ -57,15 +55,17 @@ const create = () => {
         tags: habitTags,
       };
       console.log("Habit details object: ", habitDetails);
-      console.log("Habit tag names", habitDetails.tags.map((tag) => tag.name));
-      return;
+      console.log(
+        "Habit tag names",
+        habitDetails.tags.map((tag) => tag.name)
+      );
 
       const response = axios.post("http://localhost:3000/habits", habitDetails);
-      if (response.status == 200) {
+      if (response.status === 200) {
         setTitle("");
         Alert.alert("Habit added successfully", "Enjoy");
       }
-      console.log("habit failed to add", response.status);
+      console.log("habit added, ", response);
     } catch (error) {
       console.log("error adding habit", error);
     }
