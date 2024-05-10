@@ -57,9 +57,41 @@ app.post("/habits", async (req, res) => {
   }
 });
 
+//complete
+app.put("/habits/:habitId/completed", async (req, res) => {
+  const habitId = req.params.habitId;
+  const updatedCompletion = req.body.completed;
+
+  try {
+    const updatedHabit = await Habit.findByIdAndUpdate(
+      habitId,
+      { completed: updatedCompletion },
+      { new: true }
+    );
+
+    if (!updatedHabit) {
+      return res.status(404).json({ error: "Habit not found" });
+    }
+
+    res.status(200).json({ message: "Habit completion status updated" });
+  } catch (error) {
+    res.status(500).json({ error: error.messsage });
+  }
+});
+
 // update
 
 // delete
+app.delete("/habits/:habitId", async(req, res) => {
+  try {
+    const {habitId} = req.params;
+    await Habit.findByIdAndDelete(habitId);
+    res.status(200).json({message: "habit deleted successfully"})
+
+  } catch(error) {
+    res.status(500).json({error:"unable to delete habit"});
+  }
+})
 
 // Tags
 

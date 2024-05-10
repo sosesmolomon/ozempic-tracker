@@ -21,7 +21,7 @@ import {
 } from "@expo/vector-icons";
 
 import CreateHabit from "../../components/createHabit";
-import TodayPage from "../../components/todayPage";
+import HabitsNotCompleted from "../../components/habitsNotCompleted";
 
 const HomePage = () => {
   const [tagName, setTagName] = useState("");
@@ -75,44 +75,21 @@ const HomePage = () => {
   //     return !habit.completed || !habit.completed[currentDay];
   //   });
 
-
   return (
     <>
       <ScrollView style={{ flex: 1, backgroundColor: "white", padding: 10 }}>
-        <CreateHabit />
-        <Text>home</Text>
-
-        {/* add tags */}
-
-        <TextInput
-          value={tagName}
-          onChangeText={(text) => setTagName(text)}
+        <Text
           style={{
-            width: "95%",
-            marginTop: 15,
-            padding: 15,
-            borderRadius: 10,
-            backgroundColor: "#E1EBEE",
-          }}
-          placeholder="Tag"
-        />
-
-        <Pressable
-          onPress={addTag}
-          style={{
-            marginTop: 25,
-            backgroundColor: "#00428c",
-            padding: 10,
-            borderRadius: 8,
+            backgroundColor: "#0EFFFF",
+            textAlign: "center",
+            paddingHorizontal: 10,
+            paddingVertical: 8,
+            borderRadius: 25,
           }}
         >
-          <Text
-            style={{ textAlign: "center", color: "white", fontWeight: "bold" }}
-          >
-            SAVE
-          </Text>
-        </Pressable>
-        <TodayPage />
+          Habits for Today!
+        </Text>
+        <HabitsNotCompleted />
       </ScrollView>
     </>
   );
