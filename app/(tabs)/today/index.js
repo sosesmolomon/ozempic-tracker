@@ -24,10 +24,10 @@ import CreateHabit from "../../components/createHabit";
 import HabitsNotCompleted from "../../components/habitsNotCompleted";
 
 const HomePage = () => {
-  const [tagName, setTagName] = useState("");
-  const [tags, setTags] = useState([]);
-  const [habits, setHabits] = useState([]);
-  const [option, setOption] = useState("Today");
+  // const [tagName, setTagName] = useState("");
+  // const [tags, setTags] = useState([]);
+  // const [habits, setHabits] = useState([]);
+  // const [option, setOption] = useState("Today");
 
   // useEffect(() => {
   //   fetchTags();
@@ -40,40 +40,40 @@ const HomePage = () => {
   //   }, [])
   // );
 
-  async function addTag() {
-    console.log("add tag", tagName);
-    try {
-      const tag = {
-        name: tagName,
-      };
-      const response = await axios.post("http://localhost:3000/tags", tag);
-      if (response.status == 200) {
-        setTagName("");
-        Alert.alert("Tag added successfully");
-      }
-      console.log("Tag added", response);
-    } catch (error) {
-      console.log("error adding tag", error);
-    }
-  }
+  // async function addTag() {
+  //   console.log("add tag", tagName);
+  //   try {
+  //     const tag = {
+  //       name: tagName,
+  //     };
+  //     const response = await axios.post("http://localhost:3000/tags", tag);
+  //     if (response.status == 200) {
+  //       setTagName("");
+  //       Alert.alert("Tag added successfully");
+  //     }
+  //     console.log("Tag added", response);
+  //   } catch (error) {
+  //     console.log("error adding tag", error);
+  //   }
+  // }
 
-  useEffect(() => {
-    fetchHabits();
-  }, []);
+  // useEffect(() => {
+  //   fetchHabits();
+  // }, []);
 
-  async function fetchHabits() {
-    console.log("fetching habits");
-    try {
-      const response = await axios.get("http://localhost:3000/habitslist");
-      setHabits(response.data);
-    } catch (error) {
-      console.log("error fetching habits", error);
-    }
-  }
-  const filteredHabits = habits;
-  //   const filteredHabits = habits?.filter((habit) => {
-  //     return !habit.completed || !habit.completed[currentDay];
-  //   });
+  // async function fetchHabits() {
+  //   console.log("fetching habits");
+  //   try {
+  //     const response = await axios.get("http://localhost:3000/habitslist");
+  //     setHabits(response.data);
+  //   } catch (error) {
+  //     console.log("error fetching habits", error);
+  //   }
+  // }
+  // const filteredHabits = habits;
+  // //   const filteredHabits = habits?.filter((habit) => {
+  // //     return !habit.completed || !habit.completed[currentDay];
+  // //   });
 
   return (
     <>

@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { useRouter } from "expo-router";
 import CreateHabit from "../../components/createHabit";
+import ButtonsPage from "../../components/buttonsPage";
 
 import {
     Entypo,
@@ -17,6 +18,7 @@ const index = () => {
     <View>
       <Text>home page for creating things</Text>
       <CreateHabit />
+      <ButtonsPage></ButtonsPage>
 
 
     </View>

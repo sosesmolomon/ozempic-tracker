@@ -1,7 +1,14 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
-import { StyleSheet, Text, View, Pressable, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import {
   Entypo,
   Ionicons,
@@ -20,6 +27,7 @@ import {
 
 import Habit from "../../api/models/habit";
 import DeleteConfirmation from "./deleteConfirmationModal";
+import PopupModal from "./popupModal";
 
 const HabitsNotCompleted = () => {
   const [habits, setHabits] = useState([]);
@@ -42,14 +50,6 @@ const HabitsNotCompleted = () => {
     }, [])
   );
 
-  // const currentDay = new Date()
-  //   .toLocaleDateString("en-us", { weekday: "short" })
-  //   .slice(0, 3);
-
-  const currentDay = "Mon";
-
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
   async function fetchHabits() {
     console.log("fetching habits");
     try {
@@ -60,13 +60,10 @@ const HabitsNotCompleted = () => {
     }
   }
 
-  const filteredHabits = habits?.filter((habit) => {
-    return !habit.completed || !habit.completed[currentDay];
-  });
-
   function handleLongPress(habitId) {
     const selectedHabit = habits?.find((habit) => habit._id == habitId);
     setSelectedHabit(selectedHabit);
+    getHabitTags(selectedHabit);
     setModalVisible(true);
   }
 
@@ -84,9 +81,14 @@ const HabitsNotCompleted = () => {
       await fetchHabits();
 
       setModalVisible(false);
+      popUpDriver();
     } catch (error) {
       console.log("error", error);
     }
+  };
+
+  const popUpDriver = () => {
+    showPopUp();
   };
 
   const deleteHabit = async () => {
@@ -107,15 +109,19 @@ const HabitsNotCompleted = () => {
     }
   };
 
+  // --------delete confirmation modal-----------------------------------------------------------------------
 
   // Set up some additional local state
-  const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false);
+  const [displayConfirmationModal, setDisplayConfirmationModal] =
+    useState(false);
   const [deleteMessage, setDeleteMessage] = useState(null);
 
   // Handle the displaying of the modal based on type and id
   const showDeleteModal = () => {
-    setDeleteMessage(`Are you sure you want to delete the habit '${selectedHabit?.name}'?`);
-    console.log(selectedHabit.name);
+    setDeleteMessage(
+      `Are you sure you want to delete the habit '${selectedHabit?.title}'?`
+    );
+    console.log(selectedHabit);
     setDisplayConfirmationModal(true);
   };
 
@@ -129,7 +135,34 @@ const HabitsNotCompleted = () => {
     deleteHabit();
     setDisplayConfirmationModal(false);
   };
+  // ------------------------------------------------------------------------------------
 
+  // ------------PopUp Modal-----------------------------------------------------------------------
+  const [selectedHabitTags, setSelectedHabitTags] = useState([]);
+  const [displayPopUpModal, setDisplayPopUpModal] = useState(true);
+  const showPopUp = () => {
+    console.log("habit tags:", selectedHabitTags);
+    setDisplayPopUpModal(true);
+  };
+  const hidePopUp = () => {
+    setDisplayPopUpModal(false);
+  };
+
+  const getHabitTags = (habit) => {
+    setSelectedHabitTags(habit?.tags.map((tag) => tag.name));
+  };
+
+  // ------------------------------------------------------------------------------------
+
+  const filteredHabits = habits?.filter((habit) => {
+    return !habit.completed || !habit.completed[currentDay];
+  });
+
+  // const currentDay = new Date()
+  //   .toLocaleDateString("en-us", { weekday: "short" })
+  //   .slice(0, 3);
+  const currentDay = "Mon";
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   return (
     <>
@@ -141,7 +174,7 @@ const HabitsNotCompleted = () => {
               onLongPress={() => handleLongPress(item._id)}
               style={{
                 marginVertical: 10,
-                backgroundColor: "#ADD8E6",
+                backgroundColor: item?.color,
                 padding: 12,
                 borderRadius: 24,
               }}
@@ -229,7 +262,8 @@ const HabitsNotCompleted = () => {
           <View style={{ marginVertical: 10 }}>
             <Text>Options</Text>
             <Pressable
-              onPress={handleCompletion}
+              // onPress={handleCompletion}
+              onPress={showPopUp}
               style={{
                 flexDirection: "row",
                 alignItems: "center",
@@ -246,6 +280,7 @@ const HabitsNotCompleted = () => {
             </Pressable>
 
             <Pressable
+              onPress={showPopUp}
               style={{
                 flexDirection: "row",
                 alignItems: "center",
@@ -304,10 +339,35 @@ const HabitsNotCompleted = () => {
         hideModal={hideConfirmationModal}
         message={deleteMessage}
       />
+
+      <PopupModal
+        showModal={displayPopUpModal}
+        hideModal={hidePopUp}
+        selectedHabitTags={selectedHabitTags}
+      />
     </>
   );
 };
 
 export default HabitsNotCompleted;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  modal: {
+    justifyContent: "flex-end",
+    margin: 0,
+  },
+  container: {
+    backgroundColor: "white",
+    padding: 20,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  tip: {
+    fontSize: 16,
+  },
+});

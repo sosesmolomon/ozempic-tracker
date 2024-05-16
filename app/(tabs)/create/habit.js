@@ -8,7 +8,7 @@ import {
   Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { Ionicons, AntDesign, FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 import TagBubbles from "../../components/tagBubbles";
@@ -19,12 +19,23 @@ const create = () => {
   //console.log("in create.js");
   const router = useRouter();
   const [title, setTitle] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
 
   const [allTags, setAllTags] = useState([]);
 
   //const [habitTags, setHabitTags] = useState([]);
   let habitTags = [];
   const [selectedTagIds, setSelectedTagIds] = useState([]);
+
+  const colors = [
+    "#FF5733", // Red
+    "#FFD700", // Gold
+    "#5D76A9",
+    "#1877F2", // Medium Purple
+    "#32CD32", // Lime Green
+    "#CCCCFF", // Tomato
+    "#4169E1", // Royal Blue
+  ];
 
   useEffect(() => {
     fetchTags();
@@ -51,6 +62,7 @@ const create = () => {
 
       const habitDetails = {
         title: title,
+        color: selectedColor,
         reminder: true,
         tags: habitTags,
       };
@@ -114,6 +126,32 @@ const create = () => {
         }}
         placeholder="Title"
       />
+
+      <View style={{ marginVertical: 10 }}>
+        <Text style={{ fontSize: 18, fontWeight: "500" }}>Color</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 10,
+            marginTop: 10,
+          }}
+        >
+          {colors?.map((item, index) => (
+            <TouchableOpacity
+              onPress={() => setSelectedColor(item)}
+              key={index}
+              activeOpacity={0.8}
+            >
+              {selectedColor === item ? (
+                <AntDesign name="plussquare" size={30} color={item} />
+              ) : (
+                <FontAwesome name="square" size={30} color={item} />
+              )}
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
 
       {/* set tags */}
       <Text style={{ fontSize: 20, marginTop: 10 }}>

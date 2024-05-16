@@ -41,9 +41,10 @@ app.get("/habitslist", async (req, res) => {
 // create
 app.post("/habits", async (req, res) => {
   try {
-    const { title, reminder, tags } = req.body;
+    const { title, color, reminder, tags } = req.body;
     const newHabit = new Habit({
       title,
+      color,
       reminder,
       tags,
     });

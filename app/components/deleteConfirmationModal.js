@@ -14,7 +14,7 @@ const DeleteConfirmation = ({
   confirmModal,
   message,
 }) => {
-    console.log(message);
+    console.log("message:",message);
   return (
     <Modal
       visible={showModal}
