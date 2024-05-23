@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, View, Pressable, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Pressable,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import {
   Modal,
   BottomModal,
@@ -7,19 +13,39 @@ import {
   SlideAnimation,
   ModalContent,
 } from "react-native-modals";
-const PopupModal = (showModal, hideModal, selectedHabitTags) => {
+
+import { Ionicons } from "@expo/vector-icons"; // Assuming you are using Expo for icons
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+const PopupModal = ({ showModal, hideModal, selectedHabitTags }) => {
   console.log(selectedHabitTags);
+  console.log(showModal);
   return (
     <>
       <Modal
         visible={showModal}
-        onBackdropPress={hideModal}
-        onSwipeComplete={hideModal}
-        swipeDirection="down"
-        style={styles.modal}
+        animationType="fade"
+        transparent={true}
+        onRequestClose={hideModal}
       >
-        <View style={styles.container}>
-          <Text style={styles.title}>Habit Tip, {selectedHabitTags}</Text>
+        <Pressable onPress={hideModal}>
+          <View style={styles.modalOverlay} />
+        </Pressable>
+        <View style={styles.modalContainer}>
+          <TouchableOpacity onPress={hideModal} style={styles.closeButton}>
+            <Ionicons name="close" size={24} color="black" />
+          </TouchableOpacity>
+          <View style={styles.lightbulb}>
+            <MaterialCommunityIcons
+              name="lightbulb-on-outline"
+              size={32}
+              color="yellow"
+            />
+          </View>
+          <View style={styles.contentContainer}>
+            <Text>Did You Know??</Text>
+            <Text>JSDFLKASDJFKLDSJKLGJADLKB;Jfdjlfkjdasklfjdkslfjdsakl;</Text>
+          </View>
         </View>
       </Modal>
     </>
@@ -27,23 +53,31 @@ const PopupModal = (showModal, hideModal, selectedHabitTags) => {
 };
 
 const styles = StyleSheet.create({
-  modal: {
-    justifyContent: "flex-end",
-    margin: 0,
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  container: {
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     backgroundColor: "white",
-    padding: 20,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    padding: 20,        
+    borderRadius: 10,
   },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
+  closeButton: {
+    position: "absolute",
+    top: 10,
+    right: 10,
   },
-  tip: {
-    fontSize: 16,
+  contentContainer: {
+    alignItems: "center",
+    paddingTop: 20,
+  },
+  lightbulb: {
+    alighItems: "left",
+    paddingTop: 10,
   },
 });
 

@@ -28,6 +28,7 @@ import {
 import Habit from "../../api/models/habit";
 import DeleteConfirmation from "./deleteConfirmationModal";
 import PopupModal from "./popupModal";
+import TipModal from "./TipPopUp";
 
 const HabitsNotCompleted = () => {
   const [habits, setHabits] = useState([]);
@@ -79,16 +80,11 @@ const HabitsNotCompleted = () => {
         completed: updatedCompletion,
       });
       await fetchHabits();
-
       setModalVisible(false);
-      popUpDriver();
+      showPopUp();
     } catch (error) {
       console.log("error", error);
     }
-  };
-
-  const popUpDriver = () => {
-    showPopUp();
   };
 
   const deleteHabit = async () => {
@@ -139,7 +135,7 @@ const HabitsNotCompleted = () => {
 
   // ------------PopUp Modal-----------------------------------------------------------------------
   const [selectedHabitTags, setSelectedHabitTags] = useState([]);
-  const [displayPopUpModal, setDisplayPopUpModal] = useState(true);
+  const [displayPopUpModal, setDisplayPopUpModal] = useState(false);
   const showPopUp = () => {
     console.log("habit tags:", selectedHabitTags);
     setDisplayPopUpModal(true);
@@ -262,8 +258,7 @@ const HabitsNotCompleted = () => {
           <View style={{ marginVertical: 10 }}>
             <Text>Options</Text>
             <Pressable
-              // onPress={handleCompletion}
-              onPress={showPopUp}
+              onPress={handleCompletion}
               style={{
                 flexDirection: "row",
                 alignItems: "center",
